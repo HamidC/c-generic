@@ -16,6 +16,7 @@ enum Type {
 	VOIDPTR
 };
 
+double toDouble(void* value, enum Type type);
 double genericSum(void* a, enum Type a_t, void* b, enum Type b_t);
 
 void main()
@@ -25,62 +26,50 @@ void main()
 	bool c = true;
 	float d = 3.14;
 	double e = 3.14;
-	char* f = "145";
+	char* g = "145";
+	int f = -3;
 
-	//printf("res = %lf\n", sum(a, b));
-	printf("res = %lf\n", sum(c, d));
-	printf("res = %lf\n", sum(b, e));
-	//printf("str = %s", f);
+	printf("%d + '%c' = %lf\n", a, b, sum(a, b));
+	printf("%s + %f = %lf\n", c ? "true" : "false", d, sum(c, d));
+	printf("%lf + %d = %lf\n", e, f, sum(e, f));
+	//printf("\"%s\"\n", g);
 	
 	return;
 }
 
 double genericSum(void* a, enum Type a_t, void* b, enum Type b_t)
 {
-	double x = 0, y = 0;
-	
-	switch(a_t)
-	{
-		case BOOL:
-			x = *(bool*)a;
-			break;
-		case CHAR:
-			if (*(char*)a >= 48 && *(char*)a <= 57)
-				x = *(char*)a - 48;
-			break;
-		case INT:
-			x = *(int*)a;
-		case LONG:
-			x = *(long*)a;
-			break;
-		case FLOAT:
-			x = *(float*)a;
-			break;
-		case DOUBLE:
-			x = *(double*)a;
-			break;
-	}
-	
-	switch(b_t)
-	{
-		case BOOL:
-			y = *(bool*)b;
-		case CHAR:
-			if (*(char*)b >= 48 && *(char*)b <= 57)
-				y = *(char*)b - 48;
-			break;
-		case INT:
-			y = *(int*)b;
-		case LONG:
-			y = *(long*)b;
-			break;
-		case FLOAT:
-			y = *(float*)b;
-			break;
-		case DOUBLE:
-			y = *(double*)b;
-			break;
-	}
+	double x = toDouble(a, a_t);
+	double y = toDouble(b, b_t);
 	
 	return x + y;
+}
+
+double toDouble(void* value, enum Type type)
+{
+	double result = 0;
+	
+	switch(type)
+	{
+		case BOOL:
+			result = *(bool*)value;
+			break;
+		case CHAR:
+			if (*(char*)value >= 48 && *(char*)value <= 57)
+				result = *(char*)value - 48;
+			break;
+		case INT:
+			result = *(int*)value;
+		case LONG:
+			result = *(long*)value;
+			break;
+		case FLOAT:
+			result = *(float*)value;
+			break;
+		case DOUBLE:
+			result = *(double*)value;
+			break;
+	}
+	
+	return result;
 }

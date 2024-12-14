@@ -1,3 +1,3 @@
 # Refactor:
 - [ ] Add string numbers
-- [ ] Add toInt function
+- [x] Add toDouble function
